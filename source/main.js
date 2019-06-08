@@ -114,11 +114,12 @@ function WinstonLogger_Init( basename, directory, console_level, max_size, max_f
 	//Variables
 	var filename = '';
 	//Parametre checks
-	if( basename == null || typeof(basename) !== 'string' ){
-		basename = 'log_debug.log';
+	if( basename != null && typeof(basename) === 'string' ){
+		WinstonLogger_Transports.file_debug.filename = basename;
+		WinstonLogger_Transports.file_debug._basename = basename;
 	}
-	if( directory != null && typeof(directory) === 'string'){
-		WinstonLogger_Transports.file_debug.filename = Path.join(directory,basename);
+	if( directory != null && typeof(directory) === 'string' ){
+		WinstonLogger_Transports.file_debug.dirname = directory;
 	}
 	if( console_level != null && typeof(console_level) === 'string' ){
 		WinstonLogger_Transports.console_stderr.level = console_level;
@@ -146,7 +147,14 @@ function WinstonLogger_Init( basename, directory, console_level, max_size, max_f
 
 //Exports and Execution
 if(require.main === module){
-	console.log('WinstonLoggerLiteral: %o', WinstonLoggerLiteral);	
+	const FUNCTION_NAME = 'MainExecutionFunction';
+	//console.log('WinstonLoggerLiteral: %o', WinstonLoggerLiteral);	
+	console.log('WinstonLogger_Transports: %o', WinstonLogger_Transports);
+	var function_return = WinstonLogger_Init( 'debug.log', './test_log_dir' );
+	if( function_return[0] === 0 ){
+		var Logger = function_return[1];
+		Logger.log({process: PROCESS_NAME, module: MODULE_NAME, file: FILENAME, function: FUNCTION_NAME, level: 'note', message: 'Test.'});
+	}
 } else{
 	exports.levels = ApplicationLogStandard.levels;
 	exports.colors = ApplicationLogStandard.colors;

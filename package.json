@@ -1,11 +1,11 @@
 {
   "name": "application-log-winston-interface",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A wrapper around initialising Winston with Application-Log Standard levels, colours, and specific formats.",
   "main": "source/main.js",
   "dependencies": {
-	"winston": ">=3.0.0",
-	"logform": ">=2.0.0"
+    "winston": ">=3.0.0",
+    "logform": ">=2.0.0"
   },
   "devDependencies": {},
   "scripts": {
@@ -21,7 +21,11 @@
     "winston",
     "application",
     "log",
-    "logging"
+    "logging",
+	"libre",
+	"open",
+	"free",
+	"mit"
   ],
   "author": "Anadian",
   "license": "MIT",
