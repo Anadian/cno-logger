@@ -125,7 +125,7 @@ function WinstonLogger_Init( basename, directory, console_level, max_size, max_f
 		WinstonLogger_Transports.console_stderr.level = console_level;
 	}
 	if( max_size != null && typeof(max_size) === 'number' ){
-		WinstonLogger_Transports.file_debug.maxsize = maz_siize;
+		WinstonLogger_Transports.file_debug.maxsize = maz_size;
 	}
 	if( max_files != null && typeof(max_files) === 'number' ){
 		WinstonLogger_Transports.file_debug.maxFiles = max_files;
