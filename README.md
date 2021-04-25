@@ -3,6 +3,8 @@
 [![Semantic Versioning 2.0.0](https://img.shields.io/badge/semver-2.0.0-brightgreen?style=flat-square)](https://semver.org/spec/v2.0.0.html)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg?style=flat-square)](https://conventionalcommits.org)
 [![License](https://img.shields.io/github/license/Anadian/application-log-winston-interface)](https://github.com/Anadian/application-log-winston-interface/blob/main/LICENSE)
+[![npm](https://img.shields.io/npm/v/application-log-winston-interface)](https://www.npmjs.com/package/application-log-winston-interface)
+![David](https://img.shields.io/david/Anadian/application-log-winston-interface)
 
 > A wrapper around initialising Winston with Application-Log Standard levels, colours, and specific formats.
 # Table of Contents
