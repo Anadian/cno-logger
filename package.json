@@ -38,6 +38,10 @@
 		"logform": "^2.2.0",
 		"winston": "^3.3.3"
 	},
+	"devDependencies": {
+		"npm-check-updates": "^11.5.1",
+		"standard-version": "^9.2.0"
+	},
 	"engines": {
 		"node": ">=12"
 	},
