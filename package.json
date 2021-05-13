@@ -39,8 +39,8 @@
 		"winston": "^3.3.3"
 	},
 	"devDependencies": {
-		"npm-check-updates": "^11.5.1",
-		"standard-version": "^9.2.0"
+		"npm-check-updates": "^11.5.11",
+		"standard-version": "^9.3.0"
 	},
 	"engines": {
 		"node": ">=12"
