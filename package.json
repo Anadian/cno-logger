@@ -35,12 +35,12 @@
 	},
 	"homepage": "https://github.com/Anadian/application-log-winston-interface#readme",
 	"dependencies": {
-		"logform": "^2.2.0",
+		"logform": "^2.3.0",
 		"winston": "^3.3.3"
 	},
 	"devDependencies": {
-		"npm-check-updates": "^11.6.0",
-		"standard-version": "^9.3.0"
+		"npm-check-updates": "^11.8.5",
+		"standard-version": "^9.3.1"
 	},
 	"engines": {
 		"node": ">=12"
