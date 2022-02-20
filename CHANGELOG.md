@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.6](https://github.com/Anadian/application-log-winston-interface/compare/v2.0.5...v2.0.6) (2022-02-20)
+
+
+### Documentation
+
+* Updated README and deps. ([769b487](https://github.com/Anadian/application-log-winston-interface/commit/769b487d368968d63f9f3ad5bc135bd4059d21b4))
+
 ### [2.0.5](https://github.com/Anadian/application-log-winston-interface/compare/v2.0.4...v2.0.5) (2021-09-25)
 
 
