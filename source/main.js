@@ -1,5 +1,4 @@
-#!/usr/local/bin/node
-'use strict';
+#!/usr/bin/env node
 /**
 # [application-log-winston-interface.js](source/application-log-winston-interface.js)
 > A wrapper around initialising Winston with Application-Log Standard levels, colours, and specific formats.
@@ -37,8 +36,8 @@ Documentation License: [![Creative Commons License](https://i.creativecommons.or
 //# Dependencies
 	//## Internal
 	//## Standard
-	const FileSystem = require('fs');
-	const Path = require('path');
+	import FileSystem from 'node:fs';
+	import Path from 'node:path';
 	//## External
 	const LogForm = require('logform');
 	const Winston = require('winston');
