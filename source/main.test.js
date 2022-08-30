@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import AVA from 'ava';
-import * as ALWI from './main.mjs'; 
+import * as ALWI from './main.js'; 
 
 AVA( 'FirstTest', function( t ){
 	t.log( t.title );

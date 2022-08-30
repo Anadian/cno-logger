@@ -1,5 +1,4 @@
-#!/usr/local/bin/node
-'use strict';
+#!/usr/bin/env node
 /**
 # [application-log-winston-interface.js](source/application-log-winston-interface.js)
 > A wrapper around initialising Winston with Application-Log Standard levels, colours, and specific formats.
@@ -37,13 +36,13 @@ Documentation License: [![Creative Commons License](https://i.creativecommons.or
 //# Dependencies
 	//## Internal
 	//## Standard
-	const FileSystem = require('fs');
-	const Path = require('path');
+	//const FileSystem = require('fs');
+	//const Path = require('path');
 	//## External
-	const LogForm = require('logform');
-	const Winston = require('winston');
+	import LogForm from 'logform';
+	import Winston from 'winston';
 //# Constants
-const FILENAME = 'application-log-winston-interface.js';
+/*const FILENAME = 'application-log-winston-interface.js';
 const MODULE_NAME = 'ApplicationLogWinstonInterface';
 //var PACKAGE_JSON = {};
 var PROCESS_NAME = '';
@@ -51,7 +50,7 @@ if(require.main === module){
 	PROCESS_NAME = 'application-log-winston-interface';
 } else{
 	PROCESS_NAME = process.argv0;
-}
+}*/
 
 const ApplicationLogStandard = { //RFC 5424
 	levels: {
@@ -141,7 +140,7 @@ History:
 | --- | --- |
 | 2.0.0 | WIP |
 */
-function initWinstonLogger( basename, directory, console_level = 'info', max_size = 1048576, max_files = 4 ){
+export default function initWinstonLogger( basename, directory, console_level = 'info', max_size = 1048576, max_files = 4 ){
 	var arguments_array = Array.from(arguments);
 	var return_error;
 	const FUNCTION_NAME = 'initWinstonLogger';
@@ -223,36 +222,4 @@ function initWinstonLogger( basename, directory, console_level = 'info', max_siz
 	return logger;
 }
 //# Exports and Execution
-if(require.main === module){
-	var return_error = null;
-	const FUNCTION_NAME = 'MainExecutionFunction';
-	//##Dependencies
-		//###Internal
-		//###Standard
-		//###External
-	//Constants
-	//Variables
-	var Logger = null;
-	console.log('WinstonLogger_Transports: %o', WinstonLogger_Transports);
-	try{
-		Logger = initWinstonLogger( 'debug.log', './test_log_dir' );
-	} catch(error){
-		return_error = new Error(`initWinstonLogger threw an error: ${error}`);
-		//throw return_error;
-	}
-	if( return_error === null ){
-		Logger.log({process: PROCESS_NAME, module: MODULE_NAME, file: FILENAME, function: FUNCTION_NAME, level: 'crit', message: 'Test.'});
-		Logger.log({process: PROCESS_NAME, module: MODULE_NAME, file: FILENAME, function: FUNCTION_NAME, level: 'error', message: 'Test.'});
-		Logger.log({process: PROCESS_NAME, module: MODULE_NAME, file: FILENAME, function: FUNCTION_NAME, level: 'warn', message: 'Test.'});
-		Logger.log({process: PROCESS_NAME, module: MODULE_NAME, file: FILENAME, function: FUNCTION_NAME, level: 'note', message: 'Test.'});
-		Logger.log({process: PROCESS_NAME, module: MODULE_NAME, file: FILENAME, function: FUNCTION_NAME, level: 'info', message: 'Test.'});
-		Logger.setConsoleLogLevel( 'debug' );
-		Logger.log({process: PROCESS_NAME, module: MODULE_NAME, file: FILENAME, function: FUNCTION_NAME, level: 'debug', message: 'Test.'});
-	}
-} else{
-	exports.levels = ApplicationLogStandard.levels;
-	exports.colors = ApplicationLogStandard.colors;
-	exports.formats = WinstonLogFormFormats;
-	exports.transports = WinstonLogger_Transports;
-	exports.initWinstonLogger = initWinstonLogger;
-}
+export { initWinstonLogger, ApplicationLogStandard as standard, WinstonLogFormFormats as formats, WinstonLogger_Transports as transports };
