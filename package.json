@@ -4,13 +4,13 @@
 	"description": "A wrapper around initialising Winston with Application-Log Standard levels, colours, and specific formats.",
 	"main": "source/main.js",
 	"scripts": {
-		"test": "./source/main.js",
+		"test": "ava source/main.test.js",
 		"lint": "eslint ./source/main.js",
 		"generate-docs": "extract-documentation-comments -I source/main.js -O API.md",
 		"update-config": "hjson -j ci/github-actions.hjson | json2yaml --preserve-key-order -o .github/workflows/ci.yml",
 		"update-deps": "npm-check-updates -u",
 		"release": "standard-version",
-		"publish-release": "git push --follow-tags origin main && npm publish"
+		"publish-release": "git push --follow-tags origin main && pnpm publish"
 	},
 	"repository": {
 		"type": "git",
@@ -39,12 +39,15 @@
 		"winston": "^3.6.0"
 	},
 	"devDependencies": {
+		"ava": "^4.3.3",
+		"c8": "^7.12.0",
 		"npm-check-updates": "^12.4.0",
 		"standard-version": "^9.3.2"
 	},
 	"engines": {
 		"node": ">=12"
 	},
+	"type": "module",
 	"eslintConfig": {
 		"env": {
 			"commonjs": true,
