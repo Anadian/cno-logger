@@ -4,6 +4,8 @@
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg?style=flat-square)](https://conventionalcommits.org)
 [![License](https://img.shields.io/github/license/Anadian/application-log-winston-interface)](https://github.com/Anadian/application-log-winston-interface/blob/main/LICENSE)
 [![npm](https://img.shields.io/npm/v/application-log-winston-interface)](https://www.npmjs.com/package/application-log-winston-interface)
+[![ci](https://github.com/Anadian/application-log-winston-interface/actions/workflows/ci.yml/badge.svg)](https://github.com/Anadian/application-log-winston-interface/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/github/Anadian/application-log-winston-interface/badge.svg?branch=main)](https://coveralls.io/github/Anadian/application-log-winston-interface?branch=main)
 
 > A wrapper around initialising Winston with Application-Log Standard levels, colours, and specific formats.
 # Table of Contents
@@ -16,13 +18,15 @@
 # Background
 A simple module that exists primarily as a convenience to initialise [Winston](https://github.com/winstonjs/winston) the way I like.
 # Install
+Using [pnpm](https://pnpm.io/cli/add):
 ```bash
-npm install application-log-winston-interface
+pnpm add --save application-log-winston-interface
 ```
+It can, of course, also be installed by [NPM](https://docs.npmjs.com/cli/v8/commands/npm-install) or [Yarn](https://yarnpkg.com/getting-started/usage) using the normal methods.
 # Usage
 # API
 ```js
-const ApplicationLogWinstonInterface = require('application-log-winston-interface');
+import * as ApplicationLogWinstonInterface from 'application-log-winston-interface';
 
 try{
 	var Logger = ApplicationLogWinstonInterface.initWinstonLogger( 'base_name.log', './log/directory' );
