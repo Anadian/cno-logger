@@ -78,9 +78,9 @@ const WinstonLogFormFormats = {
 	file: LogForm.format.combine(
 		LogForm.format.timestamp(),
 		LogForm.format.splat(),
-		LogForm.format.printf((info) => {
+		LogForm.format.printf((info) => /* c8 ignore start */{
 			return `${info.timestamp} ${info.process?info.process+':':''}${info.module?info.module+':':''}${info.file?info.file+':':""}${info.function?info.function+':':''}${info.level}: ${info.message}${(info.meta)?' '+info.meta:''}`;
-		}),
+		}/* c8 ignore stop */),
 	),
 	console: LogForm.format.combine(
 		LogForm.format.colorize({
@@ -88,9 +88,9 @@ const WinstonLogFormFormats = {
 			colors: ApplicationLogStandard.colors
 		}),
 		LogForm.format.splat(),
-		LogForm.format.printf((info) => {
+		LogForm.format.printf((info) => /* c8 ignore start */{
 			return `${info.level}: ${info.function?info.function+':':''} ${info.message}`;
-		})
+		}/* c8 ignore stop */)
 	)
 };
 //## Errors
@@ -175,7 +175,7 @@ export default function initWinstonLogger( basename, directory, console_level = 
 	}
 
 	//Function
-	if( basename != null && typeof(basename) === 'string' ){
+	if( basename != '' && typeof(basename) === 'string' ){
 		WinstonLogger_Transports.file_debug.filename = basename;
 		WinstonLogger_Transports.file_debug._basename = basename;
 	} else{
@@ -183,7 +183,7 @@ export default function initWinstonLogger( basename, directory, console_level = 
 		return_error.code = 'ERR_INVALID_ARG_VALUE';
 		throw return_error;
 	}
-	if( directory != null && typeof(directory) === 'string' ){
+	if( directory != '' && typeof(directory) === 'string' ){
 		WinstonLogger_Transports.file_debug.dirname = directory;
 	} else{
 		return_error = new Error('Param `directory` is an empty string.');
