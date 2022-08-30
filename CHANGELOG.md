@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/Anadian/application-log-winston-interface/compare/v2.0.6...v3.0.0) (2022-08-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* Moving to ECMA modules only.
+* Before fully leaning into ECMA modules.
+
+### Chores
+
+* Before fully leaning into ECMA modules. ([30bf32e](https://github.com/Anadian/application-log-winston-interface/commit/30bf32e645246bf6146ab2025aec5f6e80bd608e))
+* Moving to ECMA modules only. ([9492151](https://github.com/Anadian/application-log-winston-interface/commit/9492151dd3f985c7a73c2b89f15f558454027aec))
+
+
+### Documentation
+
+* New README.md ([ad3dcdb](https://github.com/Anadian/application-log-winston-interface/commit/ad3dcdb0aa8349f734ffd31b2558661907b3f29f))
+
+
+### Continuous Integration
+
+* Greatly improved coverage. ([5c92c94](https://github.com/Anadian/application-log-winston-interface/commit/5c92c94e9c1a9167c6d078d6b620cf52bd452c09))
+
 ### [2.0.6](https://github.com/Anadian/application-log-winston-interface/compare/v2.0.5...v2.0.6) (2022-02-20)
 
 
