@@ -93,6 +93,15 @@ const WinstonLogFormFormats = {
 		}/* c8 ignore stop */)
 	)
 };
+const NullLogger = { 
+	log: () => {
+		return null;
+	},
+	setConsoleLogLevel: () => {
+		return null;
+	}
+};
+
 //## Errors
 
 //# Global Variables
@@ -227,4 +236,4 @@ export default function initWinstonLogger( basename, directory, console_level = 
 	return logger;
 }
 //# Exports and Execution
-export { initWinstonLogger, ApplicationLogStandard as standard, WinstonLogFormFormats as formats };
+export { initWinstonLogger, ApplicationLogStandard as standard, WinstonLogFormFormats as formats, NullLogger as nullLogger };
