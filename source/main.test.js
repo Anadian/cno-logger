@@ -68,6 +68,7 @@ AVA( 'initWinstonLogger:InvalidArgValue:directory', function( t ){
 } );
 AVA( 'setConsoleLogLevel:InvalidArgType:new_level', function( t ){
 	t.log( t.title );
+	var return_error = null;
 	const expected = {
 		instanceOf: TypeError,
 		code: 'ERR_INVALID_ARG_TYPE'
@@ -90,7 +91,7 @@ AVA( 'Success', function( t ){
 	const FUNCTION_NAME = t.title;
 	var return_error = null;
 	var Logger = null;
-	t.log(`WinstonLogger_Transports: ${ALWI.transports}`);
+	//t.log(`WinstonLogger_Transports: ${ALWI.transports}`);
 	try{
 		Logger = ALWI.initWinstonLogger( 'debug.log', './test_log_dir' );
 	} catch(error){

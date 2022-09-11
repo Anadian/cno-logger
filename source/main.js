@@ -37,7 +37,7 @@ Documentation License: [![Creative Commons License](https://i.creativecommons.or
 	//## Internal
 	//## Standard
 	//const FileSystem = require('fs');
-	//const Path = require('path');
+	//import Path from 'node:path';
 	//## External
 	import LogForm from 'logform';
 	import Winston from 'winston';
@@ -96,23 +96,6 @@ const WinstonLogFormFormats = {
 //## Errors
 
 //# Global Variables
-var WinstonLogger_Transports = {
-	file_debug: new Winston.transports.File({
-		level: 'debug',
-		format:	WinstonLogFormFormats.file,
-		eol: '\n',
-		filename: 'log_debug.log',
-		maxsize: 1048576, //1 MiB
-		maxFiles: 4
-	}),
-	console_stderr: new Winston.transports.Console({
-		level: 'info',
-		format: WinstonLogFormFormats.console,
-		stderrLevels: ['emerg','alert','crit','error','warn','note','info','debug'],
-		warnLevels: ['warn','note']
-	})
-};	
-
 /**
 ## Functions
 */
@@ -145,8 +128,26 @@ export default function initWinstonLogger( basename, directory, console_level = 
 	var return_error;
 	const FUNCTION_NAME = 'initWinstonLogger';
 	//Logger.log({process: PROCESS_NAME, module: MODULE_NAME, file: FILENAME, function: FUNCTION_NAME, level: 'debug', message: `received: ${arguments_array}`});
+	//console.log( `${FUNCTION_NAME}: ${arguments_array.toString()}` );
 	//Variables
 	var logger = null;
+	var transports_object = {};
+	var transports_options = {
+		file_debug: {
+			level: 'debug',
+			format:	WinstonLogFormFormats.file,
+			eol: '\n',
+			filename: 'log_debug.log',
+			maxsize: 1048576, //1 MiB
+			maxFiles: 4
+		},
+		console_stderr: {
+			level: 'info',
+			format: WinstonLogFormFormats.console,
+			stderrLevels: ['emerg','alert','crit','error','warn','note','info','debug'],
+			warnLevels: ['warn','note']
+		}
+	};
 	//Parametre checks
 	if( typeof(basename) !== 'string' ){
 		return_error = new TypeError('Param "basename" is not String.');
@@ -176,38 +177,42 @@ export default function initWinstonLogger( basename, directory, console_level = 
 
 	//Function
 	if( basename != '' && typeof(basename) === 'string' ){
-		WinstonLogger_Transports.file_debug.filename = basename;
-		WinstonLogger_Transports.file_debug._basename = basename;
+		transports_options.file_debug.filename = basename;
+		transports_options.file_debug._basename = basename;
 	} else{
 		return_error = new Error('Param `basename` is an empty string.');
 		return_error.code = 'ERR_INVALID_ARG_VALUE';
 		throw return_error;
 	}
 	if( directory != '' && typeof(directory) === 'string' ){
-		WinstonLogger_Transports.file_debug.dirname = directory;
+		transports_options.file_debug.dirname = directory;
+		//transports_options.file_debug._dest.path = Path.join( directory, basename );
 	} else{
 		return_error = new Error('Param `directory` is an empty string.');
 		return_error.code = 'ERR_INVALID_ARG_VALUE';
 		throw return_error;
 	}
 	if( console_level != null && typeof(console_level) === 'string' ){
-		WinstonLogger_Transports.console_stderr.level = console_level;
+		transports_options.console_stderr.level = console_level;
 	}
 	if( max_size != null && typeof(max_size) === 'number' ){
-		WinstonLogger_Transports.file_debug.maxsize = max_size;
+		transports_options.file_debug.maxsize = max_size;
 	}
 	if( max_files != null && typeof(max_files) === 'number' ){
-		WinstonLogger_Transports.file_debug.maxFiles = max_files;
+		transports_options.file_debug.maxFiles = max_files;
 	}
+	transports_object.file_debug = new Winston.transports.File( transports_options.file_debug );
+	transports_object.console_stderr = new Winston.transports.Console( transports_options.console_stderr );
 	logger = Winston.createLogger({
 		level: 'debug',
 		levels: ApplicationLogStandard.levels,
 		transports: [
-			WinstonLogger_Transports.file_debug,
-			WinstonLogger_Transports.console_stderr
+			transports_object.file_debug,
+			transports_object.console_stderr
 		]
 	});
-	logger.real_transports = WinstonLogger_Transports;
+	logger.real_transports = transports_object;
+	logger.transports_options = transports_options;
 	logger.setConsoleLogLevel = function( new_level = 'debug' ){
 		var return_error = null;
 		if( typeof(new_level) === 'string' && new_level != '' ){
@@ -222,4 +227,4 @@ export default function initWinstonLogger( basename, directory, console_level = 
 	return logger;
 }
 //# Exports and Execution
-export { initWinstonLogger, ApplicationLogStandard as standard, WinstonLogFormFormats as formats, WinstonLogger_Transports as transports };
+export { initWinstonLogger, ApplicationLogStandard as standard, WinstonLogFormFormats as formats };
