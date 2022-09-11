@@ -1,6 +1,6 @@
 {
 	"name": "application-log-winston-interface",
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"description": "A wrapper around initialising Winston with Application-Log Standard levels, colours, and specific formats.",
 	"main": "source/main.js",
 	"scripts": {

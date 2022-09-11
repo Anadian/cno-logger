@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/Anadian/application-log-winston-interface/compare/v3.0.0...v3.0.1) (2022-09-11)
+
+
+### Bug Fixes
+
+* Transports are now created at init time so options actually take effect. ([d618ea4](https://github.com/Anadian/application-log-winston-interface/commit/d618ea462a124c30f07695a6d1ff04a598fb493f))
+
+
+### Refactoring
+
+* Updated .gitignore to ignore test output. ([7cd7c84](https://github.com/Anadian/application-log-winston-interface/commit/7cd7c84dd077efb04c35a6619f7eb8b661d8e66c))
+
 ## [3.0.0](https://github.com/Anadian/application-log-winston-interface/compare/v2.0.6...v3.0.0) (2022-08-30)
 
 
