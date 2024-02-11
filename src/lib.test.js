@@ -37,6 +37,14 @@ Documentation License: [![Creative Commons License](https://i.creativecommons.or
 	//## External
 //# Constants
 const FILENAME = 'lib.test.js';
+function errorExpected( expected, received ){
+	if( received instanceof expected.instanceOf ){
+		if( received.code === expected.code ){
+			return true;
+		}
+	}
+	return Assert.fail(`received: ${received}\nexpected:${expected}\n`);
+}
 //## Errors
 
 //# Global Variables
@@ -49,7 +57,8 @@ Test( 'initWinstonLogger:InvalidArg:basename', function( t ){
 		code: 'ERR_INVALID_ARG_TYPE'
 	};
 	const input_function = LoggerNS.initWinstonLogger.bind( null, true );
-	Assert.throws( input_function, expected );
+	const validator_function = errorExpected.bind( null, expected );
+	Assert.throws( input_function, validator_function );
 } );
 Test( 'initWinstonLogger:InvalidArg:directory', function( t ){
 	t.diagnostic( t.name );
@@ -58,7 +67,8 @@ Test( 'initWinstonLogger:InvalidArg:directory', function( t ){
 		code: 'ERR_INVALID_ARG_TYPE'
 	};
 	const input_function = LoggerNS.initWinstonLogger.bind( null, 'debug.log', true );
-	Assert.throws( input_function, expected );
+	const validator_function = errorExpected.bind( null, expected );
+	Assert.throws( input_function, validator_function );
 } );
 Test( 'initWinstonLogger:InvalidArg:console_level', function( t ){
 	t.diagnostic( t.name );
@@ -67,7 +77,8 @@ Test( 'initWinstonLogger:InvalidArg:console_level', function( t ){
 		code: 'ERR_INVALID_ARG_TYPE'
 	};
 	const input_function = LoggerNS.initWinstonLogger.bind( null, 'debug.log', './test_log_dir', true );
-	Assert.throws( input_function, expected );
+	const validator_function = errorExpected.bind( null, expected );
+	Assert.throws( input_function, validator_function );
 } );
 Test( 'initWinstonLogger:InvalidArg:max_size', function( t ){
 	t.diagnostic( t.name );
@@ -76,7 +87,8 @@ Test( 'initWinstonLogger:InvalidArg:max_size', function( t ){
 		code: 'ERR_INVALID_ARG_TYPE'
 	};
 	const input_function = LoggerNS.initWinstonLogger.bind( null, 'debug.log', './test_log_dir', 'debug', true );
-	Assert.throws( input_function, expected );
+	const validator_function = errorExpected.bind( null, expected );
+	Assert.throws( input_function, validator_function );
 } );
 Test( 'initWinstonLogger:InvalidArg:max_files', function( t ){
 	t.diagnostic( t.name );
@@ -85,7 +97,8 @@ Test( 'initWinstonLogger:InvalidArg:max_files', function( t ){
 		code: 'ERR_INVALID_ARG_TYPE'
 	};
 	const input_function = LoggerNS.initWinstonLogger.bind( null, 'debug.log', './test_log_dir', 'debug', 4096, true );
-	Assert.throws( input_function, expected );
+	const validator_function = errorExpected.bind( null, expected );
+	Assert.throws( input_function, validator_function );
 } );
 Test( 'initWinstonLogger:InvalidArgValue:basename', function( t ){
 	t.diagnostic( t.name );
@@ -94,7 +107,8 @@ Test( 'initWinstonLogger:InvalidArgValue:basename', function( t ){
 		code: 'ERR_INVALID_ARG_VALUE'
 	};
 	const input_function = LoggerNS.initWinstonLogger.bind( null, '', './test_log_dir' );
-	Assert.throws( input_function, expected );
+	const validator_function = errorExpected.bind( null, expected );
+	Assert.throws( input_function, validator_function );
 } );
 Test( 'initWinstonLogger:InvalidArgValue:directory', function( t ){
 	t.diagnostic( t.name );
@@ -103,7 +117,8 @@ Test( 'initWinstonLogger:InvalidArgValue:directory', function( t ){
 		code: 'ERR_INVALID_ARG_VALUE'
 	};
 	const input_function = LoggerNS.initWinstonLogger.bind( null, 'debug.log', '' );
-	Assert.throws( input_function, expected );
+	const validator_function = errorExpected.bind( null, expected );
+	Assert.throws( input_function, validator_function );
 } );
 Test( 'setConsoleLogLevel:InvalidArgType:new_level', function( t ){
 	t.diagnostic( t.name );
@@ -120,7 +135,8 @@ Test( 'setConsoleLogLevel:InvalidArgType:new_level', function( t ){
 		throw return_error;
 	}
 	const input_function = logger.setConsoleLogLevel.bind( null, '' );
-	Assert.throws( input_function, expected );
+	const validator_function = errorExpected.bind( null, expected );
+	Assert.throws( input_function, validator_function );
 } );
 Test( 'Success', function( t ){
 	t.diagnostic( t.name );
