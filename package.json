@@ -1,6 +1,6 @@
 {
 	"name": "cno-logger",
-	"version": "3.1.0",
+	"version": "4.0.0",
 	"description": "A micropackage formerly known as `application-log-winston-interface`: a wrapper around initialising Winston with Application-Log Standard levels, colours, and specific formats.",
 	"main": "src/main.js",
 	"scripts": {

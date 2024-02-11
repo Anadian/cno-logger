@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/Anadian/cno-logger/compare/v3.1.0...v4.0.0) (2024-02-11)
+
+
+### Refactoring
+
+* Change name to `cno-logger`. ([bd48853](https://github.com/Anadian/cno-logger/commit/bd48853a2492202fc71545022888277ffb986f67))
+* Main source. ([c0b27bb](https://github.com/Anadian/cno-logger/commit/c0b27bb053d1389c8d2ff0102e327bc07a905314))
+
+
+### Tests
+
+* Updated tests to use Node's internal test runner. ([878bb2c](https://github.com/Anadian/cno-logger/commit/878bb2c739167b99284dd561d0171a25909eec6e))
+
+
+### Chores
+
+* Cleaned and updated deps. ([a2fb4f3](https://github.com/Anadian/cno-logger/commit/a2fb4f3ad3705acb9bd1526708d042ae0f6e0f9a))
+* Updated GitHub Actions ([97d7f22](https://github.com/Anadian/cno-logger/commit/97d7f220008930034cf7c89baabe44bfc736c4e1))
+
 ## [3.1.0](https://github.com/Anadian/application-log-winston-interface/compare/v3.0.1...v3.1.0) (2022-09-11)
 
 
