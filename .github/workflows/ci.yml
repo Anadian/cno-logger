@@ -40,7 +40,7 @@ jobs:
       with:
         version: '8'
     - run: pnpm install
-    - run: pnpm run-ci
+    - run: pnpm do-ci
     - uses: coverallsapp/github-action@master
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
