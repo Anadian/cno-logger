@@ -1,13 +1,13 @@
-# application-log-winston-interface
+# cno-logger
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 [![Semantic Versioning 2.0.0](https://img.shields.io/badge/semver-2.0.0-brightgreen?style=flat-square)](https://semver.org/spec/v2.0.0.html)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg?style=flat-square)](https://conventionalcommits.org)
-[![License](https://img.shields.io/github/license/Anadian/application-log-winston-interface)](https://github.com/Anadian/application-log-winston-interface/blob/main/LICENSE)
-[![npm](https://img.shields.io/npm/v/application-log-winston-interface)](https://www.npmjs.com/package/application-log-winston-interface)
-[![ci](https://github.com/Anadian/application-log-winston-interface/actions/workflows/ci.yml/badge.svg)](https://github.com/Anadian/application-log-winston-interface/actions/workflows/ci.yml)
-[![Coverage Status](https://coveralls.io/repos/github/Anadian/application-log-winston-interface/badge.svg?branch=main)](https://coveralls.io/github/Anadian/application-log-winston-interface?branch=main)
+[![License](https://img.shields.io/github/license/Anadian/cno-logger)](https://github.com/Anadian/cno-logger/blob/main/LICENSE)
+[![npm](https://img.shields.io/npm/v/cno-logger)](https://www.npmjs.com/package/cno-logger)
+[![ci](https://github.com/Anadian/cno-logger/actions/workflows/ci.yml/badge.svg)](https://github.com/Anadian/cno-logger/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/github/Anadian/cno-logger/badge.svg?branch=main)](https://coveralls.io/github/Anadian/cno-logger?branch=main)
 
-> A wrapper around initialising Winston with Application-Log Standard levels, colours, and specific formats.
+> A micropackage formerly known as `application-log-winston-interface`: a wrapper around initialising Winston with Application-Log Standard levels, colours, and specific formats.
 # Table of Contents
 - [Background](#Background)
 - [Install](#Install)
@@ -20,13 +20,13 @@ A simple module that exists primarily as a convenience to initialise [Winston](h
 # Install
 Using [pnpm](https://pnpm.io/cli/add):
 ```bash
-pnpm add --save application-log-winston-interface
+pnpm add --save cno-logger
 ```
 It can, of course, also be installed by [NPM](https://docs.npmjs.com/cli/v8/commands/npm-install) or [Yarn](https://yarnpkg.com/getting-started/usage) using the normal methods.
 # Usage
 # API
 ```js
-import * as ApplicationLogWinstonInterface from 'application-log-winston-interface';
+import * as ApplicationLogWinstonInterface from 'cno-logger';
 
 try{
 	var Logger = ApplicationLogWinstonInterface.initWinstonLogger( 'base_name.log', './log/directory' );
