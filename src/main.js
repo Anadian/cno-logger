@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 /**
-# [application-log-winston-interface.js](source/application-log-winston-interface.js)
-> A wrapper around initialising Winston with Application-Log Standard levels, colours, and specific formats.
-
-Internal module name: `ApplicationLogWinstonInterface`
+# [lib.js](source/lib.js)
+> A micropackage formerly known as `application-log-winston-interface`: a wrapper around initialising Winston with Application-Log Standard levels, colours, and specific formats.
 
 Author: Anadian
 
@@ -28,30 +26,16 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 Documentation License: [![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-sa/4.0/)
 > The source-code comments and documentation are written in [GitHub Flavored Markdown](https://github.github.com/gfm/).
 
-> The type notation used in this documentation is based off of the [Google Closure type system](https://github.com/google/closure-compiler/wiki/Types-in-the-Closure-Type-System).
-
-> The status and feature lifecycle keywords used in this documentation are based off of my own standard [defined here](https://github.com/Anadian/FeatureLifeCycleStateStandard).
 */
 
 //# Dependencies
 	//## Internal
 	//## Standard
-	//const FileSystem = require('fs');
-	//import Path from 'node:path';
 	//## External
 	import LogForm from 'logform';
 	import Winston from 'winston';
 //# Constants
-/*const FILENAME = 'application-log-winston-interface.js';
-const MODULE_NAME = 'ApplicationLogWinstonInterface';
-//var PACKAGE_JSON = {};
-var PROCESS_NAME = '';
-if(require.main === module){
-	PROCESS_NAME = 'application-log-winston-interface';
-} else{
-	PROCESS_NAME = process.argv0;
-}*/
-
+const FILENAME = 'lib.js';
 const ApplicationLogStandard = { //RFC 5424
 	levels: {
 		emerg: 0,
@@ -101,10 +85,11 @@ const NullLogger = {
 		return null;
 	}
 };
-
 //## Errors
 
 //# Global Variables
+/**## Functions*/
+
 /**
 ## Functions
 */
@@ -117,9 +102,9 @@ Parametres:
 | --- | --- | --- |
 | basename | {String} | The basename for all logging files.  |
 | directory | {String} | The directory to store the log files in.  |
-| console_level | {String} | The logging level for the console transport. \[default: \] |
-| max_size | {Number} | The maximum size, in bytes, for each log file. [default: 1 MiB] \[default: \] |
-| max_files | {Number} | The maximum number of log files before old ones start getting overwritten. [default: 4] \[default: \] |
+| console_level | {String} | The logging level for the console transport. \[default: 'info' \] |
+| max_size | {Number} | The maximum size, in bytes, for each log file. [default: 1 MiB] \[default: 1048576\] |
+| max_files | {Number} | The maximum number of log files before old ones start getting overwritten. [default: 4] \[default: 4\] |
 
 Throws:
 | code | type | condition |
