@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.2](https://github.com/Anadian/cno-logger/compare/v4.0.0...v4.0.2) (2024-02-11)
+
+
+### Bug Fixes
+
+* GitHub Actions ([9b2f398](https://github.com/Anadian/cno-logger/commit/9b2f3982dd1d792429d6fa2c992d28b717a19c0e))
+* GitHub Actions for real ([33a9bd6](https://github.com/Anadian/cno-logger/commit/33a9bd6718f4a645d7e3859c89558f6c2d05e7e7))
+* GitHub Actions for realz ([02f3da1](https://github.com/Anadian/cno-logger/commit/02f3da133c1120d47a84a7a99e0d92d3f553e77f))
+
+
+### Chores
+
+* **release:** 4.0.1 ([15f069c](https://github.com/Anadian/cno-logger/commit/15f069c64f15d25c8dcca7141138ebb12699a144))
+* **release:** 4.0.1 ([586ae99](https://github.com/Anadian/cno-logger/commit/586ae99e8cc7937e2051cfc58fba6d6b00a2bfaf))
+
 ### [4.0.1](https://github.com/Anadian/cno-logger/compare/v4.0.0...v4.0.1) (2024-02-11)
 
 ## [4.0.0](https://github.com/Anadian/cno-logger/compare/v3.1.0...v4.0.0) (2024-02-11)
