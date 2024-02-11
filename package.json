@@ -4,13 +4,13 @@
 	"description": "A micropackage formerly known as `application-log-winston-interface`: a wrapper around initialising Winston with Application-Log Standard levels, colours, and specific formats.",
 	"main": "src/main.js",
 	"scripts": {
-		"test": "ava -v ./src/main.test.js",
+		"test": "node --test ./src/lib.test.js",
 		"coverage": "c8 pnpm test",
 		"coverage-report": "c8 report -r=text-lcov > coverage/lcov.txt",
 		"ci": "pnpm coverage && pnpm coverage-report",
-		"lint": "eslint ./src/main.js",
-		"generate-docs": "extract-documentation-comments -I src/main.js -O API.md",
-		"update-config": "hjson -j ci/github-actions.hjson | json2yaml --preserve-key-order -o .github/workflows/ci.yml",
+		"lint": "eslint ./src/lib.js",
+		"generate-docs": "extract-documentation-comments -I src/lib.js -O API.md",
+		"update-config": "hjson -j ci/github-actions.hjson | json2yaml -o .github/workflows/ci.yml",
 		"update-deps": "npm-check-updates -u",
 		"release": "standard-version",
 		"publish-release": "git push --follow-tags origin main && pnpm publish"
@@ -50,7 +50,7 @@
 		"standard-version": "^9.5.0"
 	},
 	"engines": {
-		"node": ">=12"
+		"node": ">=18"
 	},
 	"type": "module",
 	"eslintConfig": {

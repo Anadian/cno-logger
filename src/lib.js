@@ -77,6 +77,7 @@ const WinstonLogFormFormats = {
 		}/* c8 ignore stop */)
 	)
 };
+/* c8 ignore start */
 const NullLogger = { 
 	log: () => {
 		return null;
@@ -85,6 +86,7 @@ const NullLogger = {
 		return null;
 	}
 };
+/* c8 ignore stop */
 //## Errors
 
 //# Global Variables

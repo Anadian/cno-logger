@@ -140,9 +140,6 @@ Test( 'setConsoleLogLevel:InvalidArgType:new_level', function( t ){
 } );
 Test( 'Success', function( t ){
 	t.diagnostic( t.name );
-	const PROCESS_NAME = 'application-log-winston-interface';
-	const MODULE_NAME = 'test';
-	const FILENAME = 'source/main.test.js';
 	const FUNCTION_NAME = t.name;
 	var return_error = null;
 	var logger = null;
@@ -154,13 +151,13 @@ Test( 'Success', function( t ){
 		//throw return_error;
 	}
 	if( return_error === null ){
-		logger.log({process: PROCESS_NAME, module: MODULE_NAME, file: FILENAME, function: FUNCTION_NAME, level: 'crit', message: 'Test.'});
-		logger.log({process: PROCESS_NAME, module: MODULE_NAME, file: FILENAME, function: FUNCTION_NAME, level: 'error', message: 'Test.'});
-		logger.log({process: PROCESS_NAME, module: MODULE_NAME, file: FILENAME, function: FUNCTION_NAME, level: 'warn', message: 'Test.'});
-		logger.log({process: PROCESS_NAME, module: MODULE_NAME, file: FILENAME, function: FUNCTION_NAME, level: 'note', message: 'Test.'});
-		logger.log({process: PROCESS_NAME, module: MODULE_NAME, file: FILENAME, function: FUNCTION_NAME, level: 'info', message: 'Test.'});
+		logger.log({file: FILENAME, function: FUNCTION_NAME, level: 'crit', message: 'Test.'});
+		logger.log({file: FILENAME, function: FUNCTION_NAME, level: 'error', message: 'Test.'});
+		logger.log({file: FILENAME, function: FUNCTION_NAME, level: 'warn', message: 'Test.'});
+		logger.log({file: FILENAME, function: FUNCTION_NAME, level: 'note', message: 'Test.'});
+		logger.log({file: FILENAME, function: FUNCTION_NAME, level: 'info', message: 'Test.'});
 		logger.setConsoleLogLevel( 'debug' );
-		logger.log({process: PROCESS_NAME, module: MODULE_NAME, file: FILENAME, function: FUNCTION_NAME, level: 'debug', message: 'Test.'});
+		logger.log({file: FILENAME, function: FUNCTION_NAME, level: 'debug', message: 'Test.'});
 		Assert( true );
 	} else{
 		Assert.fail( return_error );
