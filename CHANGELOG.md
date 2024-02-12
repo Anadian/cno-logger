@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.3](https://github.com/Anadian/cno-logger/compare/v4.0.2...v4.0.3) (2024-02-12)
+
+
+### Chores
+
+* Updated config. ([55f1720](https://github.com/Anadian/cno-logger/commit/55f17206c4adb18cbb51a6881777cb4389ebec58))
+
 ### [4.0.2](https://github.com/Anadian/cno-logger/compare/v4.0.0...v4.0.2) (2024-02-11)
 
 
