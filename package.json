@@ -10,7 +10,7 @@
 		"do-ci": "pnpm coverage && pnpm coverage-report",
 		"lint": "eslint ./src/lib.js",
 		"generate-docs": "extract-documentation-comments -I src/lib.js -O API.md",
-		"update-config": "hjson -j ci/github-actions.hjson | json2yaml -o .github/workflows/ci.yml",
+		"update-config": "hjson -j ci/github-actions.hjson | json2yaml -o .github/workflows/ci.yml && git change 'chore: Updated config.'",
 		"update-deps": "npm-check-updates -u",
 		"release": "standard-version",
 		"publish-release": "git push --follow-tags origin main && pnpm publish"
