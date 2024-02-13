@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.4](https://github.com/Anadian/cno-logger/compare/v4.0.3...v4.0.4) (2024-02-13)
+
+
+### Chores
+
+* Removed legacy "main" from package.json. ([e828aea](https://github.com/Anadian/cno-logger/commit/e828aeae3bfc9a83a6ac066c8a023d29c8341d74))
+
 ### [4.0.3](https://github.com/Anadian/cno-logger/compare/v4.0.2...v4.0.3) (2024-02-12)
 
 
