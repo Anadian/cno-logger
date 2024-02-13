@@ -2,7 +2,6 @@
 	"name": "cno-logger",
 	"version": "4.0.3",
 	"description": "A micropackage formerly known as `application-log-winston-interface`: a wrapper around initialising Winston with Application-Log Standard levels, colours, and specific formats.",
-	"main": "src/main.js",
 	"scripts": {
 		"test": "node --test ./src/lib.test.js",
 		"coverage": "c8 pnpm test",
