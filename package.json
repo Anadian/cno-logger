@@ -32,6 +32,9 @@
 		"cno",
 		"logger"
 	],
+	"exports": {
+		".": "./src/lib.js"
+	},
 	"author": "Anadian",
 	"license": "MIT",
 	"bugs": {
