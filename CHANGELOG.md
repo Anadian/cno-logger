@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.5](https://github.com/Anadian/cno-logger/compare/v4.0.4...v4.0.5) (2024-02-14)
+
+
+### Bug Fixes
+
+* Fixing issues with "exports" field in package.json. ([f306ad7](https://github.com/Anadian/cno-logger/commit/f306ad71d7ce49380ab933720a13fd3a0be25e83))
+
 ### [4.0.4](https://github.com/Anadian/cno-logger/compare/v4.0.3...v4.0.4) (2024-02-13)
 
 
