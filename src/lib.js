@@ -36,16 +36,16 @@ Documentation License: [![Creative Commons License](https://i.creativecommons.or
 	import Winston from 'winston';
 //# Constants
 const FILENAME = 'lib.js';
-const ApplicationLogStandard = { //RFC 5424
+const ApplicationLogStandard = { // RFC 5424 Severity Levels
 	levels: {
-		emerg: 0,
-		alert: 1,
-		crit: 2,
-		error: 3,
-		warn: 4,
-		note: 5,
-		info: 6,
-		debug: 7
+		emerg: 0, // Emergency: system is unusable
+		alert: 1, // Alert: action must be taken immediately
+		crit: 2, // Critical: critical conditions
+		error: 3, // Error: error conditions
+		warn: 4, // Warning: warning conditions
+		note: 5, // Notice: normal but significant condition
+		info: 6, // Informational: informational messages
+		debug: 7 // Debug: debug-level messages
 	},
 	colors: {
 		emerg: 'bold underline red',
@@ -76,6 +76,22 @@ const WinstonLogFormFormats = {
 			return `${info.level}: ${info.function?info.function+':':''} ${info.message}`;
 		}/* c8 ignore stop */)
 	)
+};
+const WINSTON_TRANSPORTS_OPTIONS_DEFAULT = {
+	file_debug: {
+		level: 'debug',
+		format:	WinstonLogFormFormats.file,
+		eol: '\n',
+		filename: 'log_debug.log',
+		maxsize: 1048576, //1 MiB
+		maxFiles: 4
+	},
+	console_stderr: {
+		level: 'info',
+		format: WinstonLogFormFormats.console,
+		stderrLevels: ['emerg','alert','crit','error','warn','note','info','debug'],
+		warnLevels: ['warn','note']
+	}
 };
 /* c8 ignore start */
 const NullLogger = { 
@@ -117,9 +133,10 @@ Throws:
 History:
 | version | change |
 | --- | --- |
+| 5.0.0 | Deprecated |
 | 2.0.0 | WIP |
 */
-export default function initWinstonLogger( basename, directory, console_level = 'info', max_size = 1048576, max_files = 4 ){
+export function initWinstonLogger( basename, directory, console_level = 'info', max_size = 1048576, max_files = 4 ){
 	var arguments_array = Array.from(arguments);
 	var return_error;
 	const FUNCTION_NAME = 'initWinstonLogger';
@@ -222,5 +239,113 @@ export default function initWinstonLogger( basename, directory, console_level = 
 	//Return
 	return logger;
 }
+/**
+### initLogger
+> Creates a new logger from the given options.
+
+#### Parametres
+| name | type | description |
+| --- | --- | --- |
+| options | object? | [Reserved] Additional run-time options. \[default: {}\] |
+
+#### Returns
+| type | description |
+| --- | --- |
+| object | The new logger instance. |
+
+#### Throws
+| code | type | condition |
+| --- | --- | --- |
+| 'ERR_INVALID_ARG_TYPE' | TypeError | Thrown if a given argument isn't of the correct type. |
+
+#### History
+| version | change |
+| --- | --- |
+| 5.0.0 | WIP |
+*/
+function initLogger( options = {} ){
+	const FUNCTION_NAME = 'initLogger';
+	//Variables
+	//var arguments_array = Array.from(arguments);
+	var _return;
+	var return_error = null;
+	var logger = null;
+	var transports_object = options?.transportsObject ?? {};
+	var transports_options = Object.assign( {}, WINSTON_TRANSPORTS_OPTIONS_DEFAULT, ( options.transportsOptions ?? {} ) );
+	//this.logger.log({file: FILENAME, function: FUNCTION_NAME, level: 'debug', message: `received: ${arguments_array}`});
+	//Parametre checks
+	if( typeof(options) !== 'object' ){
+		return_error = new TypeError('Param "options" is not object?.');
+		return_error.code = 'ERR_INVALID_ARG_TYPE';
+		throw return_error;
+	}
+
+	//Function
+	if( typeof(options.directory) === 'string' ){
+		if( options.directory != '' ){
+			transports_options.file_debug.dirname = options.directory;
+			//transports_options.file_debug._dest.path = Path.join( directory, basename );
+		} else{
+			return_error = new Error('Param `options.directory` is an empty string.');
+			return_error.code = 'ERR_INVALID_ARG_VALUE';
+			throw return_error;
+		}
+	} else{
+		return_error = new TypeError('Param `options.directory` is not a string.');
+		return_error.code = 'ERR_INVALID_ARG_TYPE';
+	}
+	if( options.basename != '' ){ 
+		if( typeof(options.basename) === 'string' ){
+			transports_options.file_debug.filename = options.basename;
+			transports_options.file_debug._basename = options.basename;
+		} else{
+			return_error = new Error('Param `options.basename` is present but not a string.');
+			return_error.code = 'ERR_INVALID_ARG_TYPE';
+			throw return_error;
+		}
+	}
+	if( options.consoleLevel != '' ){
+		if( typeof(options.consoleLevel) === 'string' ){
+			transports_options.console_stderr.level = options.consoleLevel;
+		} else{
+			return_error = new Error('Param `options.consoleLevel` is present but not a string.');
+			return_error.code = 'ERR_INVALID_ARG_TYPE';
+			throw return_error;
+		}
+	}
+	if( options.maxsize != null && typeof(options.maxsize) === 'number' ){
+		transports_options.file_debug.maxsize = options.maxsize;
+	}
+	if( options.maxFiles != null && typeof(options.maxFiles) === 'number' ){
+		transports_options.file_debug.maxFiles = options.maxFiles;
+	}
+	transports_object.file_debug = new Winston.transports.File( transports_options.file_debug );
+	transports_object.console_stderr = new Winston.transports.Console( transports_options.console_stderr );
+	logger = Winston.createLogger({
+		level: 'debug',
+		levels: ApplicationLogStandard.levels,
+		transports: [
+			transports_object.file_debug,
+			transports_object.console_stderr
+		]
+	});
+	logger.real_transports = transports_object;
+	logger.transports_options = transports_options;
+	logger.setConsoleLogLevel = function( new_level = 'debug' ){
+		var return_error = null;
+		if( typeof(new_level) === 'string' && new_level != '' ){
+			this.real_transports.console_stderr.level = new_level;
+		} else{
+			return_error = new TypeError('Param `new_level` is either `null` or not a string.');
+			return_error.code = 'ERR_INVALID_ARG_TYPE';
+			throw return_error;
+		}
+	}
+	_return - logger;
+
+	//Return
+	//this.logger.log({file: FILENAME, function: FUNCTION_NAME, level: 'debug', message: `returned: ${_return}`});
+	return _return;
+}
 //# Exports and Execution
-export { initWinstonLogger, ApplicationLogStandard as standard, WinstonLogFormFormats as formats, NullLogger as nullLogger };
+export { initLogger as default, ApplicationLogStandard as standard, WinstonLogFormFormats as formats, NullLogger as nullLogger, initWinstonLogger  };

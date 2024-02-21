@@ -138,6 +138,13 @@ Test( 'setConsoleLogLevel:InvalidArgType:new_level', function( t ){
 	const validator_function = errorExpected.bind( null, expected );
 	Assert.throws( input_function, validator_function );
 } );
+Test( 'initLogger:InvalidArgType:options', function( t ){
+	t.diagnostic( t.name );
+	var expected = new TypeError();
+	expected.code = 'ERR_INVALID_ARG_TYPE';
+	const input_function = LoggerNS.initLogger.bind( null, 0 );
+	Assert.throws( input_function, expected );
+} );
 Test( 'Success', function( t ){
 	t.diagnostic( t.name );
 	const FUNCTION_NAME = t.name;
