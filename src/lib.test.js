@@ -31,6 +31,7 @@ Documentation License: [![Creative Commons License](https://i.creativecommons.or
 //# Dependencies
 	//## Internal
 	import * as LoggerNS from './lib.js'; 
+	import initLogger from './lib.js';
 	//## Standard
 	import Test from 'node:test';
 	import { strict as Assert } from 'node:assert';
@@ -138,12 +139,44 @@ Test( 'setConsoleLogLevel:InvalidArgType:new_level', function( t ){
 	const validator_function = errorExpected.bind( null, expected );
 	Assert.throws( input_function, validator_function );
 } );
-Test( 'initLogger:InvalidArgType:options', function( t ){
+Test( 'LoggerNS.initLogger:InvalidArgType:options', function( t ){
 	t.diagnostic( t.name );
-	var expected = new TypeError();
-	expected.code = 'ERR_INVALID_ARG_TYPE';
+	const expected = {
+		instanceOf: TypeError,
+		code: 'ERR_INVALID_ARG_TYPE'
+	};
 	const input_function = LoggerNS.initLogger.bind( null, 0 );
-	Assert.throws( input_function, expected );
+	const validator_function = errorExpected.bind( null, expected );
+	Assert.throws( input_function, validator_function );
+} );
+Test( 'initLogger:throws', function( t ){
+	t.diagnostic( t.name );
+	const conditions = [
+		{
+			args: [ 0 ],
+			instanceOf: TypeError,
+			code: 'ERR_INVALID_ARG_TYPE'
+		},
+		{
+			args: [ { directory: false } ],
+			instanceOf: TypeError,
+			code: 'ERR_INVALID_ARG_TYPE'
+		},
+		{
+			args: [ { directory: '' } ],
+			instanceOf: Error,
+			code: 'ERR_INVALID_ARG_VALUE'
+		}
+	];
+	const input_functions = [ initLogger, LoggerNS.initLogger ];
+	for( var i = 0; i < input_functions.length; i++ ){
+		for( const condition of conditions ){
+			t.diagnostic( `${i} ${condition.code}` );
+			var input_function = input_functions[i].bind( null, ...condition.args );
+			var validator_function = errorExpected.bind( null, { ...condition } );
+			Assert.throws( input_function, validator_function );
+		}
+	}
 } );
 Test( 'Success', function( t ){
 	t.diagnostic( t.name );

@@ -136,7 +136,7 @@ History:
 | 5.0.0 | Deprecated |
 | 2.0.0 | WIP |
 */
-export function initWinstonLogger( basename, directory, console_level = 'info', max_size = 1048576, max_files = 4 ){
+function initWinstonLogger( basename, directory, console_level = 'info', max_size = 1048576, max_files = 4 ){
 	var arguments_array = Array.from(arguments);
 	var return_error;
 	const FUNCTION_NAME = 'initWinstonLogger';
@@ -265,21 +265,51 @@ export function initWinstonLogger( basename, directory, console_level = 'info', 
 */
 function initLogger( options = {} ){
 	const FUNCTION_NAME = 'initLogger';
+	const this.DEFAULT_OPTIONS = {
+		directory: process.cwd(),
+		basename: 'log_debug.log',
+		consoleLevel: 'info',
+		maxSize: 1048576,
+		maxFiles: 4,
+		transportsOptions: WINSTON_TRANSPORTS_OPTIONS_DEFAULT
+	};
 	//Variables
 	//var arguments_array = Array.from(arguments);
 	var _return;
 	var return_error = null;
 	var logger = null;
-	var transports_object = options?.transportsObject ?? {};
-	var transports_options = Object.assign( {}, WINSTON_TRANSPORTS_OPTIONS_DEFAULT, ( options.transportsOptions ?? {} ) );
+	var final_options = {};
+	if( options.noDefaults === true ){
+		final_options = Object.assign( final_options, options );
+	} else{
+		final_options = Object.assign( final_options, this.DEFAULT_OPTIONS, options );
+	}
+	if( typeof(final_options.logOptions) === 'function' ){
+		try{
+			final_options.logOptions( final_options );
+		} catch(error){
+			return_error = new Error(`final_options.logOptions threw an error: ${error}`);
+			throw return_error;
+		}
+	}
+	if( typeof(final_options.validator) === 'function' ){
+		try{
+			final_options.validator( final_options );
+		} catch(error){
+			return_error = new Error(`final_options.validator threw an error: ${error}`);
+			throw return_error;
+		}
+	}
+	var transports_object = final_options?.transportsObject ?? {};
+	//var transports_options = Object.assign( {}, WINSTON_TRANSPORTS_OPTIONS_DEFAULT, ( options.transportsOptions ?? {} ) );
 	//this.logger.log({file: FILENAME, function: FUNCTION_NAME, level: 'debug', message: `received: ${arguments_array}`});
 	//Parametre checks
-	if( typeof(options) !== 'object' ){
-		return_error = new TypeError('Param "options" is not object?.');
+	/*if( typeof(options) !== 'object' ){
+		return_error = new TypeError('Param "options" is not an object.');
 		return_error.code = 'ERR_INVALID_ARG_TYPE';
 		throw return_error;
 	}
-
+*/
 	//Function
 	if( typeof(options.directory) === 'string' ){
 		if( options.directory != '' ){
@@ -294,12 +324,18 @@ function initLogger( options = {} ){
 		return_error = new TypeError('Param `options.directory` is not a string.');
 		return_error.code = 'ERR_INVALID_ARG_TYPE';
 	}
-	if( options.basename != '' ){ 
+	if( options.basename ){ 
 		if( typeof(options.basename) === 'string' ){
-			transports_options.file_debug.filename = options.basename;
-			transports_options.file_debug._basename = options.basename;
+			if( options.basename != '' ){
+				transports_options.file_debug.filename = options.basename;
+				transports_options.file_debug._basename = options.basename;
+			} else{
+				return_error = new Error('Param `options.basename` is an empty string.');
+				return_error.code = 'ERR_INVALID_ARG_VALUE';
+				throw return_error;
+			}
 		} else{
-			return_error = new Error('Param `options.basename` is present but not a string.');
+			return_error = new TypeError('Param `options.basename` is present but not a string.');
 			return_error.code = 'ERR_INVALID_ARG_TYPE';
 			throw return_error;
 		}
@@ -348,4 +384,4 @@ function initLogger( options = {} ){
 	return _return;
 }
 //# Exports and Execution
-export { initLogger as default, ApplicationLogStandard as standard, WinstonLogFormFormats as formats, NullLogger as nullLogger, initWinstonLogger  };
+export { initLogger as default, initLogger, ApplicationLogStandard as standard, WinstonLogFormFormats as formats, NullLogger as nullLogger, initWinstonLogger  };
