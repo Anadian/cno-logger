@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0](https://github.com/Anadian/cno-logger/compare/v4.0.5...v5.0.0) (2024-03-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* Completed advancement. Bumping to next major version.
+
+### Chores
+
+* Completed advancement. Bumping to next major version. ([ed0641b](https://github.com/Anadian/cno-logger/commit/ed0641b08c212fcd93597bad82763d4cde8120be))
+
 ### [4.0.5](https://github.com/Anadian/cno-logger/compare/v4.0.4...v4.0.5) (2024-02-14)
 
 
