@@ -39,6 +39,7 @@ Documentation License: [![Creative Commons License](https://i.creativecommons.or
 //# Constants
 const FILENAME = 'lib.test.js';
 function errorExpected( expected, received ){
+	//console.error( "%o", received );
 	if( received instanceof expected.instanceOf ){
 		if( received.code === expected.code ){
 			return true;
@@ -139,7 +140,7 @@ Test( 'setConsoleLogLevel:InvalidArgType:new_level', function( t ){
 	const validator_function = errorExpected.bind( null, expected );
 	Assert.throws( input_function, validator_function );
 } );
-Test( 'LoggerNS.initLogger:InvalidArgType:options', function( t ){
+/*Test( 'LoggerNS.initLogger:InvalidArgType:options', function( t ){
 	t.diagnostic( t.name );
 	const expected = {
 		instanceOf: TypeError,
@@ -148,8 +149,8 @@ Test( 'LoggerNS.initLogger:InvalidArgType:options', function( t ){
 	const input_function = LoggerNS.initLogger.bind( null, 0 );
 	const validator_function = errorExpected.bind( null, expected );
 	Assert.throws( input_function, validator_function );
-} );
-Test( 'initLogger:throws', function( t ){
+} );*/
+Test( 'initLogger:Errors', function( t ){
 	t.diagnostic( t.name );
 	const conditions = [
 		{
@@ -158,14 +159,34 @@ Test( 'initLogger:throws', function( t ){
 			code: 'ERR_INVALID_ARG_TYPE'
 		},
 		{
-			args: [ { directory: false } ],
+			args: [ { logOptions: console.error, directory: false } ],
 			instanceOf: TypeError,
 			code: 'ERR_INVALID_ARG_TYPE'
 		},
 		{
-			args: [ { directory: '' } ],
+			args: [ { logOptions: console.error, basename: false } ],
+			instanceOf: TypeError,
+			code: 'ERR_INVALID_ARG_TYPE'
+		},
+		{
+			args: [ { logOptions: console.error, consoleLevel: false } ],
+			instanceOf: TypeError,
+			code: 'ERR_INVALID_ARG_TYPE'
+		},
+		{
+			args: [ { logOptions: console.error, consoleLevel: 'yo' } ],
 			instanceOf: Error,
 			code: 'ERR_INVALID_ARG_VALUE'
+		},
+		{
+			args: [ { logOptions: console.error, maxSize: false } ],
+			instanceOf: TypeError,
+			code: 'ERR_INVALID_ARG_TYPE'
+		},
+		{
+			args: [ { logOptions: console.error, maxFiles: false } ],
+			instanceOf: TypeError,
+			code: 'ERR_INVALID_ARG_TYPE'
 		}
 	];
 	const input_functions = [ initLogger, LoggerNS.initLogger ];
@@ -175,6 +196,34 @@ Test( 'initLogger:throws', function( t ){
 			var input_function = input_functions[i].bind( null, ...condition.args );
 			var validator_function = errorExpected.bind( null, { ...condition } );
 			Assert.throws( input_function, validator_function );
+			//var logger = input_function();
+			//logger.log( { function: t.name, level: 'crit', message: 'The fuck!' } );
+		}
+	}
+} );
+Test( 'initLogger:Success', function( t ){
+	t.diagnostic( t.name );
+	const input_functions = [ initLogger, LoggerNS.initLogger ];
+	var return_error = null;
+	for( const input_function of input_functions ){
+		var logger = null;
+		try{
+			logger = input_function( { directory: './test_log_dir' } );
+		} catch(error){
+			return_error = new Error(`input_function threw an error: ${error}`);
+			throw return_error;
+		}
+		if( return_error === null ){
+			logger.log({file: FILENAME, function: t.name, level: 'crit', message: 'Test.'});
+			logger.log({file: FILENAME, function: t.name, level: 'error', message: 'Test.'});
+			logger.log({file: FILENAME, function: t.name, level: 'warn', message: 'Test.'});
+			logger.log({file: FILENAME, function: t.name, level: 'note', message: 'Test.'});
+			logger.log({file: FILENAME, function: t.name, level: 'info', message: 'Test.'});
+			logger.setConsoleLogLevel( 'debug' );
+			logger.log({file: FILENAME, function: t.name, level: 'debug', message: 'Test.'});
+			Assert( true );
+		} else{
+			Assert.fail( return_error );
 		}
 	}
 } );

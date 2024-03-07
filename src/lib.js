@@ -265,7 +265,7 @@ function initWinstonLogger( basename, directory, console_level = 'info', max_siz
 */
 function initLogger( options = {} ){
 	const FUNCTION_NAME = 'initLogger';
-	const this.DEFAULT_OPTIONS = {
+	const DEFAULT_OPTIONS = {
 		directory: process.cwd(),
 		basename: 'log_debug.log',
 		consoleLevel: 'info',
@@ -279,10 +279,16 @@ function initLogger( options = {} ){
 	var return_error = null;
 	var logger = null;
 	var final_options = {};
+	// Parametre checks
+	if( typeof(options) !== 'object' ){
+		return_error = new TypeError('Param "options" is not an object.');
+		return_error.code = 'ERR_INVALID_ARG_TYPE';
+		throw return_error;
+	}
 	if( options.noDefaults === true ){
 		final_options = Object.assign( final_options, options );
 	} else{
-		final_options = Object.assign( final_options, this.DEFAULT_OPTIONS, options );
+		final_options = Object.assign( final_options, DEFAULT_OPTIONS, options );
 	}
 	if( typeof(final_options.logOptions) === 'function' ){
 		try{
@@ -299,74 +305,87 @@ function initLogger( options = {} ){
 			return_error = new Error(`final_options.validator threw an error: ${error}`);
 			throw return_error;
 		}
-	}
-	var transports_object = final_options?.transportsObject ?? {};
-	//var transports_options = Object.assign( {}, WINSTON_TRANSPORTS_OPTIONS_DEFAULT, ( options.transportsOptions ?? {} ) );
-	//this.logger.log({file: FILENAME, function: FUNCTION_NAME, level: 'debug', message: `received: ${arguments_array}`});
-	//Parametre checks
-	/*if( typeof(options) !== 'object' ){
-		return_error = new TypeError('Param "options" is not an object.');
-		return_error.code = 'ERR_INVALID_ARG_TYPE';
-		throw return_error;
-	}
-*/
-	//Function
-	if( typeof(options.directory) === 'string' ){
-		if( options.directory != '' ){
-			transports_options.file_debug.dirname = options.directory;
-			//transports_options.file_debug._dest.path = Path.join( directory, basename );
-		} else{
-			return_error = new Error('Param `options.directory` is an empty string.');
-			return_error.code = 'ERR_INVALID_ARG_VALUE';
+	} else{
+		if( typeof( final_options.directory ) !== 'string' ){
+			return_error = new TypeError('options.directory is not a string.');
+			return_error.code = 'ERR_INVALID_ARG_TYPE';
 			throw return_error;
 		}
-	} else{
-		return_error = new TypeError('Param `options.directory` is not a string.');
-		return_error.code = 'ERR_INVALID_ARG_TYPE';
-	}
-	if( options.basename ){ 
-		if( typeof(options.basename) === 'string' ){
-			if( options.basename != '' ){
-				transports_options.file_debug.filename = options.basename;
-				transports_options.file_debug._basename = options.basename;
-			} else{
-				return_error = new Error('Param `options.basename` is an empty string.');
+		if( typeof( final_options.basename ) !== 'string' ){
+			return_error = new TypeError('options.basename is not a string.');
+			return_error.code = 'ERR_INVALID_ARG_TYPE';
+			throw return_error;
+		}
+		if( typeof( final_options.consoleLevel ) !== 'string' ){
+			return_error = new TypeError('options.consoleLevel is not a string.');
+			return_error.code = 'ERR_INVALID_ARG_TYPE';
+			throw return_error;
+		} else{
+			if( Object.keys( ApplicationLogStandard.levels ).includes( final_options.consoleLevel ) !== true ){
+				return_error = new Error(`options.consoleLevel is not a recognized log level: ${final_options.consoleLevel}`);
 				return_error.code = 'ERR_INVALID_ARG_VALUE';
 				throw return_error;
 			}
-		} else{
-			return_error = new TypeError('Param `options.basename` is present but not a string.');
+		}
+		if( typeof( final_options.maxSize ) !== 'number' ){
+			return_error = new TypeError('options.maxSize is not a number.');
 			return_error.code = 'ERR_INVALID_ARG_TYPE';
 			throw return_error;
 		}
-	}
-	if( options.consoleLevel != '' ){
-		if( typeof(options.consoleLevel) === 'string' ){
-			transports_options.console_stderr.level = options.consoleLevel;
-		} else{
-			return_error = new Error('Param `options.consoleLevel` is present but not a string.');
+		if( typeof( final_options.maxFiles ) !== 'number' ){
+			return_error = new TypeError('options.maxFiles is not a number.');
 			return_error.code = 'ERR_INVALID_ARG_TYPE';
 			throw return_error;
 		}
+	} // validator
+
+	var transports_object = final_options?.transportsObject ?? {};
+	//var transports_options = Object.assign( {}, WINSTON_TRANSPORTS_OPTIONS_DEFAULT, ( options.transportsOptions ?? {} ) );
+	//this.logger.log({file: FILENAME, function: FUNCTION_NAME, level: 'debug', message: `received: ${arguments_array}`});
+	//Function
+	if( final_options.directory ){
+		final_options.transportsOptions.file_debug.dirname = final_options.directory;
 	}
-	if( options.maxsize != null && typeof(options.maxsize) === 'number' ){
-		transports_options.file_debug.maxsize = options.maxsize;
+	if( final_options.basename ){ 
+		final_options.transportsOptions.file_debug.filename = final_options.basename;
+		final_options.transportsOptions.file_debug._basename = final_options.basename;
 	}
-	if( options.maxFiles != null && typeof(options.maxFiles) === 'number' ){
-		transports_options.file_debug.maxFiles = options.maxFiles;
+	if( final_options.consoleLevel ){
+		final_options.transportsOptions.console_stderr.level = final_options.consoleLevel;
 	}
-	transports_object.file_debug = new Winston.transports.File( transports_options.file_debug );
-	transports_object.console_stderr = new Winston.transports.Console( transports_options.console_stderr );
-	logger = Winston.createLogger({
-		level: 'debug',
-		levels: ApplicationLogStandard.levels,
-		transports: [
-			transports_object.file_debug,
-			transports_object.console_stderr
-		]
-	});
+	if( final_options.maxSize ){
+		final_options.transportsOptions.file_debug.maxsize = final_options.maxSize;
+	}
+	if( final_options.maxFiles ){
+		final_options.transportsOptions.file_debug.maxFiles = final_options.maxFiles;
+	}
+	try{
+		transports_object.file_debug = new Winston.transports.File( final_options.transportsOptions.file_debug );
+	} catch(error){ /* c8 ignore start */
+		return_error = new Error(`new Winston.transports.File threw an error: ${error}`);
+		throw return_error;
+	} /* c8 ignore stop */
+	try{
+		transports_object.console_stderr = new Winston.transports.Console( final_options.transportsOptions.console_stderr );
+	} catch(error){ /* c8 ignore start */
+		return_error = new Error(`new Winston.transports.Console threw an error: ${error}`);
+		throw return_error;
+	} /* c8 ignore stop */
+	try{
+		logger = Winston.createLogger({
+			level: 'debug',
+			levels: ApplicationLogStandard.levels,
+			transports: [
+				transports_object.file_debug,
+				transports_object.console_stderr
+			]
+		});
+	} catch( error ){ /* c8 ignore start */
+		return_error = new Error(`Winston.createLogger threw an error: ${error}`);
+		throw return_error;
+	} /* c8 ignore stop */
 	logger.real_transports = transports_object;
-	logger.transports_options = transports_options;
+	logger.transportsOptions = final_options.transportsOptions;
 	logger.setConsoleLogLevel = function( new_level = 'debug' ){
 		var return_error = null;
 		if( typeof(new_level) === 'string' && new_level != '' ){
@@ -377,7 +396,7 @@ function initLogger( options = {} ){
 			throw return_error;
 		}
 	}
-	_return - logger;
+	_return = logger;
 
 	//Return
 	//this.logger.log({file: FILENAME, function: FUNCTION_NAME, level: 'debug', message: `returned: ${_return}`});
