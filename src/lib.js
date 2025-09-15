@@ -106,7 +106,6 @@ const NullLogger = {
 //## Errors
 
 //# Global Variables
-/**## Functions*/
 
 /**
 ## Functions
@@ -115,7 +114,7 @@ const NullLogger = {
 ### initWinstonLogger
 > Creates a new Winston logger instance configured with Application Log standards.
 
-Parametres:
+#### Parametres
 | name | type | description |
 | --- | --- | --- |
 | basename | {String} | The basename for all logging files.  |
@@ -124,13 +123,13 @@ Parametres:
 | max_size | {Number} | The maximum size, in bytes, for each log file. [default: 1 MiB] \[default: 1048576\] |
 | max_files | {Number} | The maximum number of log files before old ones start getting overwritten. [default: 4] \[default: 4\] |
 
-Throws:
+#### Throws
 | code | type | condition |
 | --- | --- | --- |
 | 'ERR_INVALID_ARG_TYPE' | {TypeError} | Thrown if a given argument isn't of the correct type. |
 | 'ERR_INVALID_ARG_VALUE' | {Error} | Thrown if a given argument has an invalid value. |
 
-History:
+#### History
 | version | change |
 | --- | --- |
 | 5.0.0 | Deprecated |
@@ -247,6 +246,13 @@ function initWinstonLogger( basename, directory, console_level = 'info', max_siz
 | name | type | description |
 | --- | --- | --- |
 | options | object? | [Reserved] Additional run-time options. \[default: {}\] |
+
+##### Options
+| directory | {String} | The directory to store the log files in. \[dynamically defaults to `process.cwd()`\]  |
+| basename | {String} | The basename for all logging files. \[default: 'log_debug.log'\] |
+| console_level | {String} | The logging level for the console transport. \[default: 'info' \] |
+| max_size | {Number} | The maximum size, in bytes, for each log file. [default: 1 MiB] \[default: 1048576\] |
+| max_files | {Number} | The maximum number of log files before old ones start getting overwritten. [default: 4] \[default: 4\] |
 
 #### Returns
 | type | description |

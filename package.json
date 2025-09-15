@@ -47,6 +47,7 @@
 	},
 	"devDependencies": {
 		"c8": "^9.1.0",
+		"extract-documentation-comments": "^0.4.2",
 		"hjson": "^3.2.2",
 		"npm-check-updates": "^16.14.15",
 		"standard-version": "^9.5.0"
