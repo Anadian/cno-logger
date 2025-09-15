@@ -403,4 +403,11 @@ function initLogger( options = {} ){
 	return _return;
 }
 //# Exports and Execution
-export { initLogger as default, initLogger, ApplicationLogStandard as standard, WinstonLogFormFormats as formats, NullLogger as nullLogger, initWinstonLogger  };
+const NAMESPACE = {
+	initLogger: initLogger,
+	standard: ApplicationLogStandard,
+	formats: WinstonLogFormFormats,
+	nullLogger: NullLogger,
+	initWinstonLogger: initWinstonLogger
+};
+export { NAMESPACE as default, initLogger, ApplicationLogStandard as standard, WinstonLogFormFormats as formats, NullLogger as nullLogger, initWinstonLogger  };
