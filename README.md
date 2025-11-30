@@ -24,7 +24,6 @@ pnpm add --save cno-logger
 ```
 It can, of course, also be installed by [NPM](https://docs.npmjs.com/cli/v8/commands/npm-install) or [Yarn](https://yarnpkg.com/getting-started/usage) using the normal methods.
 # Usage
-# API
 ```js
 import * as ApplicationLogWinstonInterface from 'cno-logger';
 
@@ -34,6 +33,7 @@ try{
 	//
 }
 ```
+# API
 # Contributing
 Changes are tracked in [CHANGELOG.md](CHANGELOG.md).
 # License
