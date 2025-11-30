@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.1.0](https://github.com/Anadian/cno-logger/compare/v5.0.1...v5.1.0) (2025-11-30)
+
+
+### Features
+
+* Made NAMESPACE the default export. ([a19dc13](https://github.com/Anadian/cno-logger/commit/a19dc1370797ba3a4ef744f54b77d7b5e76a25ea))
+
+
+### Documentation
+
+* Improved/created docs. ([0401f6d](https://github.com/Anadian/cno-logger/commit/0401f6d278b8028c495fcd2cfc031a81a0e289ed))
+
+
+### Refactoring
+
+* Using cno-bedrock. ([d2f2192](https://github.com/Anadian/cno-logger/commit/d2f21927cffe10ac4d4b7217d99f701e2c77d549))
+
 ### [5.0.1](https://github.com/Anadian/cno-logger/compare/v5.0.0...v5.0.1) (2024-03-07)
 
 
