@@ -30,12 +30,13 @@ Documentation License: [![Creative Commons License](https://i.creativecommons.or
 
 //# Dependencies
 	//## Internal
-	import * as LoggerNS from './lib.js'; 
-	import initLogger from './lib.js';
+	import LoggerNS from './lib.js'; 
+	import { initLogger } from './lib.js';
 	//## Standard
 	import Test from 'node:test';
 	import { strict as Assert } from 'node:assert';
 	//## External
+	import Bedrock from 'cno-bedrock';
 //# Constants
 const FILENAME = 'lib.test.js';
 function errorExpected( expected, received ){
@@ -159,32 +160,32 @@ Test( 'initLogger:Errors', function( t ){
 			code: 'ERR_INVALID_ARG_TYPE'
 		},
 		{
-			args: [ { logOptions: console.error, directory: false } ],
+			args: [ { logOptions: console.error, validationFunction: Bedrock.noop.returnFalse, directory: false } ],
 			instanceOf: TypeError,
 			code: 'ERR_INVALID_ARG_TYPE'
 		},
 		{
-			args: [ { logOptions: console.error, basename: false } ],
+			args: [ { logOptions: console.error, validationFunction: Bedrock.noop.returnFalse, basename: false } ],
 			instanceOf: TypeError,
 			code: 'ERR_INVALID_ARG_TYPE'
 		},
 		{
-			args: [ { logOptions: console.error, consoleLevel: false } ],
+			args: [ { logOptions: console.error, validationFunction: Bedrock.noop.returnFalse, consoleLevel: false } ],
 			instanceOf: TypeError,
 			code: 'ERR_INVALID_ARG_TYPE'
 		},
 		{
-			args: [ { logOptions: console.error, consoleLevel: 'yo' } ],
+			args: [ { logOptions: console.error, validationFunction: Bedrock.noop.returnFalse, consoleLevel: 'yo' } ],
 			instanceOf: Error,
 			code: 'ERR_INVALID_ARG_VALUE'
 		},
 		{
-			args: [ { logOptions: console.error, maxSize: false } ],
+			args: [ { logOptions: console.error, validationFunction: Bedrock.noop.returnFalse, maxSize: false } ],
 			instanceOf: TypeError,
 			code: 'ERR_INVALID_ARG_TYPE'
 		},
 		{
-			args: [ { logOptions: console.error, maxFiles: false } ],
+			args: [ { logOptions: console.error, validationFunction: Bedrock.noop.returnFalse, maxFiles: false } ],
 			instanceOf: TypeError,
 			code: 'ERR_INVALID_ARG_TYPE'
 		}
@@ -192,7 +193,7 @@ Test( 'initLogger:Errors', function( t ){
 	const input_functions = [ initLogger, LoggerNS.initLogger ];
 	for( var i = 0; i < input_functions.length; i++ ){
 		for( const condition of conditions ){
-			t.diagnostic( `${i} ${condition.code}` );
+			//t.diagnostic( `${i} ${Bedrock.utility.inspThis.call( condition, { depth: 4 } )}` );
 			var input_function = input_functions[i].bind( null, ...condition.args );
 			var validator_function = errorExpected.bind( null, { ...condition } );
 			Assert.throws( input_function, validator_function );

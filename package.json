@@ -42,6 +42,7 @@
 	},
 	"homepage": "https://github.com/Anadian/cno-logger#readme",
 	"dependencies": {
+		"cno-bedrock": "^0.0.5",
 		"logform": "^2.6.0",
 		"winston": "^3.11.0"
 	},

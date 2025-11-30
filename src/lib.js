@@ -32,6 +32,7 @@ Documentation License: [![Creative Commons License](https://i.creativecommons.or
 	//## Internal
 	//## Standard
 	//## External
+	import Bedrock from 'cno-bedrock';
 	import LogForm from 'logform';
 	import Winston from 'winston';
 //# Constants
@@ -95,12 +96,8 @@ const WINSTON_TRANSPORTS_OPTIONS_DEFAULT = {
 };
 /* c8 ignore start */
 const NullLogger = { 
-	log: () => {
-		return null;
-	},
-	setConsoleLogLevel: () => {
-		return null;
-	}
+	log: Bedrock.noop.returnNull,
+	setConsoleLogLevel: Bedrock.noop.returnNull
 };
 /* c8 ignore stop */
 //## Errors
@@ -245,13 +242,13 @@ function initWinstonLogger( basename, directory, console_level = 'info', max_siz
 #### Parametres
 | name | type | description |
 | --- | --- | --- |
-| options | object? | [Reserved] Additional run-time options. \[default: {}\] |
+| input_options | object? | [Reserved] Additional run-time options. \[default: {}\] |
 
 ##### Options
 | directory | {String} | The directory to store the log files in. \[dynamically defaults to `process.cwd()`\]  |
 | basename | {String} | The basename for all logging files. \[default: 'log_debug.log'\] |
 | console_level | {String} | The logging level for the console transport. \[default: 'info' \] |
-| max_size | {Number} | The maximum size, in bytes, for each log file. [default: 1 MiB] \[default: 1048576\] |
+| max_size | {Number} | The maximum size, in bytes, for each log file. \[default: 1 MiB\] \[default: 1048576\] |
 | max_files | {Number} | The maximum number of log files before old ones start getting overwritten. [default: 4] \[default: 4\] |
 
 #### Returns
@@ -267,9 +264,10 @@ function initWinstonLogger( basename, directory, console_level = 'info', max_siz
 #### History
 | version | change |
 | --- | --- |
+| 6.0.0 | Refactored to use `cno-bedrock`. |
 | 5.0.0 | WIP |
 */
-function initLogger( options = {} ){
+function initLogger( input_options = {} ){
 	const FUNCTION_NAME = 'initLogger';
 	const DEFAULT_OPTIONS = {
 		directory: process.cwd(),
@@ -284,97 +282,78 @@ function initLogger( options = {} ){
 	var _return;
 	var return_error = null;
 	var logger = null;
-	var final_options = {};
+	var options = {};
 	// Parametre checks
-	if( typeof(options) !== 'object' ){
-		return_error = new TypeError('Param "options" is not an object.');
+	if( typeof(input_options) !== 'object' ){
+		return_error = new TypeError('Param "input_options" is not an object.');
 		return_error.code = 'ERR_INVALID_ARG_TYPE';
 		throw return_error;
 	}
-	if( options.noDefaults === true ){
-		final_options = Object.assign( final_options, options );
-	} else{
-		final_options = Object.assign( final_options, DEFAULT_OPTIONS, options );
-	}
-	if( typeof(final_options.logOptions) === 'function' ){
-		try{
-			final_options.logOptions( final_options );
-		} catch(error){
-			return_error = new Error(`final_options.logOptions threw an error: ${error}`);
-			throw return_error;
-		}
-	}
-	if( typeof(final_options.validator) === 'function' ){
-		try{
-			final_options.validator( final_options );
-		} catch(error){
-			return_error = new Error(`final_options.validator threw an error: ${error}`);
-			throw return_error;
-		}
-	} else{
-		if( typeof( final_options.directory ) !== 'string' ){
-			return_error = new TypeError('options.directory is not a string.');
+	options = Bedrock.deriveOptions.call( this, input_options, DEFAULT_OPTIONS );
+	if( options.validationFunction(options) !== true ){
+		if( typeof( options.directory ) !== 'string' ){
+			return_error = new TypeError('input_options.directory is not a string.');
 			return_error.code = 'ERR_INVALID_ARG_TYPE';
 			throw return_error;
 		}
-		if( typeof( final_options.basename ) !== 'string' ){
-			return_error = new TypeError('options.basename is not a string.');
+		if( typeof( options.basename ) !== 'string' ){
+			return_error = new TypeError('input_options.basename is not a string.');
 			return_error.code = 'ERR_INVALID_ARG_TYPE';
 			throw return_error;
 		}
-		if( typeof( final_options.consoleLevel ) !== 'string' ){
-			return_error = new TypeError('options.consoleLevel is not a string.');
+		if( typeof( options.consoleLevel ) !== 'string' ){
+			return_error = new TypeError('input_options.consoleLevel is not a string.');
 			return_error.code = 'ERR_INVALID_ARG_TYPE';
 			throw return_error;
 		} else{
-			if( Object.keys( ApplicationLogStandard.levels ).includes( final_options.consoleLevel ) !== true ){
-				return_error = new Error(`options.consoleLevel is not a recognized log level: ${final_options.consoleLevel}`);
+			if( Object.keys( ApplicationLogStandard.levels ).includes( options.consoleLevel ) !== true ){
+				return_error = new Error(`input_options.consoleLevel is not a recognized log level: ${options.consoleLevel}`);
 				return_error.code = 'ERR_INVALID_ARG_VALUE';
 				throw return_error;
 			}
 		}
-		if( typeof( final_options.maxSize ) !== 'number' ){
-			return_error = new TypeError('options.maxSize is not a number.');
+		if( typeof( options.maxSize ) !== 'number' ){
+			return_error = new TypeError('input_options.maxSize is not a number.');
 			return_error.code = 'ERR_INVALID_ARG_TYPE';
 			throw return_error;
 		}
-		if( typeof( final_options.maxFiles ) !== 'number' ){
-			return_error = new TypeError('options.maxFiles is not a number.');
+		if( typeof( options.maxFiles ) !== 'number' ){
+			return_error = new TypeError('input_options.maxFiles is not a number.');
 			return_error.code = 'ERR_INVALID_ARG_TYPE';
 			throw return_error;
 		}
 	} // validator
 
-	var transports_object = final_options?.transportsObject ?? {};
-	//var transports_options = Object.assign( {}, WINSTON_TRANSPORTS_OPTIONS_DEFAULT, ( options.transportsOptions ?? {} ) );
-	//this.logger.log({file: FILENAME, function: FUNCTION_NAME, level: 'debug', message: `received: ${arguments_array}`});
+	var transports_object = options?.transportsObject ?? {};
 	//Function
-	if( final_options.directory ){
-		final_options.transportsOptions.file_debug.dirname = final_options.directory;
+	if( options.directory ){
+		options.transportsOptions.file_debug.dirname = options.directory;
 	}
-	if( final_options.basename ){ 
-		final_options.transportsOptions.file_debug.filename = final_options.basename;
-		final_options.transportsOptions.file_debug._basename = final_options.basename;
+	if( options.basename ){ 
+		options.transportsOptions.file_debug.filename = options.basename;
+		options.transportsOptions.file_debug._basename = options.basename;
 	}
-	if( final_options.consoleLevel ){
-		final_options.transportsOptions.console_stderr.level = final_options.consoleLevel;
+	if( options.consoleLevel ){
+		options.transportsOptions.console_stderr.level = options.consoleLevel;
 	}
-	if( final_options.maxSize ){
-		final_options.transportsOptions.file_debug.maxsize = final_options.maxSize;
+	if( options.maxSize ){
+		options.transportsOptions.file_debug.maxsize = options.maxSize;
 	}
-	if( final_options.maxFiles ){
-		final_options.transportsOptions.file_debug.maxFiles = final_options.maxFiles;
+	if( options.maxFiles ){
+		options.transportsOptions.file_debug.maxFiles = options.maxFiles;
 	}
 	try{
-		transports_object.file_debug = new Winston.transports.File( final_options.transportsOptions.file_debug );
+		transports_object.file_debug = new Winston.transports.File( options.transportsOptions.file_debug );
 	} catch(error){ /* c8 ignore start */
 		return_error = new Error(`new Winston.transports.File threw an error: ${error}`);
+		return_error.cause = error;
 		throw return_error;
 	} /* c8 ignore stop */
 	try{
-		transports_object.console_stderr = new Winston.transports.Console( final_options.transportsOptions.console_stderr );
+		transports_object.console_stderr = new Winston.transports.Console( options.transportsOptions.console_stderr );
 	} catch(error){ /* c8 ignore start */
 		return_error = new Error(`new Winston.transports.Console threw an error: ${error}`);
+		return_error.cause = error;
 		throw return_error;
 	} /* c8 ignore stop */
 	try{
@@ -391,7 +370,7 @@ function initLogger( options = {} ){
 		throw return_error;
 	} /* c8 ignore stop */
 	logger.real_transports = transports_object;
-	logger.transportsOptions = final_options.transportsOptions;
+	logger.transportsOptions = options.transportsOptions;
 	logger.setConsoleLogLevel = function( new_level = 'debug' ){
 		var return_error = null;
 		if( typeof(new_level) === 'string' && new_level != '' ){
@@ -409,11 +388,27 @@ function initLogger( options = {} ){
 	return _return;
 }
 //# Exports and Execution
-const NAMESPACE = {
-	initLogger: initLogger,
-	standard: ApplicationLogStandard,
-	formats: WinstonLogFormFormats,
-	nullLogger: NullLogger,
-	initWinstonLogger: initWinstonLogger
-};
+const NAMESPACE = {};
+Object.defineProperties( NAMESPACE, {
+	initLogger: {
+		value: initLogger,
+		enumerable: true
+	},
+	standard: {
+		value: ApplicationLogStandard,
+		enumerable: true
+	},
+	formats: {
+		value: WinstonLogFormFormats,
+		enumerable: true
+	},
+	nullLogger: {
+		value: NullLogger,
+		enumerable: true
+	},
+	initWinstonLogger: {
+		value: initWinstonLogger,
+		enumerable: true
+	}
+} );
 export { NAMESPACE as default, initLogger, ApplicationLogStandard as standard, WinstonLogFormFormats as formats, NullLogger as nullLogger, initWinstonLogger  };
