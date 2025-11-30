@@ -1,4 +1,3 @@
-
 # [lib.js](source/lib.js)
 > A micropackage formerly known as `application-log-winston-interface`: a wrapper around initialising Winston with Application-Log Standard levels, colours, and specific formats.
 
@@ -25,10 +24,7 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 Documentation License: [![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-sa/4.0/)
 > The source-code comments and documentation are written in [GitHub Flavored Markdown](https://github.github.com/gfm/).
 
-
-
 ## Functions
-
 
 ### initWinstonLogger
 > Creates a new Winston logger instance configured with Application Log standards.
@@ -61,13 +57,13 @@ Documentation License: [![Creative Commons License](https://i.creativecommons.or
 #### Parametres
 | name | type | description |
 | --- | --- | --- |
-| options | object? | [Reserved] Additional run-time options. \[default: {}\] |
+| input_options | object? | [Reserved] Additional run-time options. \[default: {}\] |
 
 ##### Options
 | directory | {String} | The directory to store the log files in. \[dynamically defaults to `process.cwd()`\]  |
 | basename | {String} | The basename for all logging files. \[default: 'log_debug.log'\] |
 | console_level | {String} | The logging level for the console transport. \[default: 'info' \] |
-| max_size | {Number} | The maximum size, in bytes, for each log file. [default: 1 MiB] \[default: 1048576\] |
+| max_size | {Number} | The maximum size, in bytes, for each log file. \[default: 1 MiB\] \[default: 1048576\] |
 | max_files | {Number} | The maximum number of log files before old ones start getting overwritten. [default: 4] \[default: 4\] |
 
 #### Returns
@@ -83,5 +79,6 @@ Documentation License: [![Creative Commons License](https://i.creativecommons.or
 #### History
 | version | change |
 | --- | --- |
+| 6.0.0 | Refactored to use `cno-bedrock`. |
 | 5.0.0 | WIP |
 
