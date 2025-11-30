@@ -1,6 +1,6 @@
 {
 	"name": "cno-logger",
-	"version": "5.1.0",
+	"version": "5.1.1",
 	"description": "A micropackage formerly known as `application-log-winston-interface`: a wrapper around initialising Winston with Application-Log Standard levels, colours, and specific formats.",
 	"scripts": {
 		"test": "node --test ./src/lib.test.js",

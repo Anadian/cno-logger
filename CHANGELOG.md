@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.1.1](https://github.com/Anadian/cno-logger/compare/v5.1.0...v5.1.1) (2025-11-30)
+
+
+### Documentation
+
+* **README.md:** Improved. ([eb4f317](https://github.com/Anadian/cno-logger/commit/eb4f31702721ffc816afae1b81ff61f3c9743d52))
+
+
+### Chores
+
+* Updated deps and generated API.md. ([56fcffd](https://github.com/Anadian/cno-logger/commit/56fcffd1970e0333f2baf2ea58b3f47fd1aa2d42))
+
 ## [5.1.0](https://github.com/Anadian/cno-logger/compare/v5.0.1...v5.1.0) (2025-11-30)
 
 
