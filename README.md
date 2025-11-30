@@ -34,6 +34,7 @@ try{
 }
 ```
 # API
+See [API.md](API.md) for full API.
 # Contributing
 Changes are tracked in [CHANGELOG.md](CHANGELOG.md).
 # License
